@@ -583,3 +583,153 @@ int main()
 
 
 
+12)stression matrix 
+
+#include <stdio.h>
+#include <stdlib.h>
+
+
+// Main function
+int main()
+{
+   int a[2][2],b[2][2],c[2][2],i,j;
+   for(i=0;i<2;i++){
+       for( j=0;j<2;j++){
+           scanf("%d",&a[i][j]);
+       }
+   }
+   
+    for( i=0;i<2;i++){
+       for( j=0;j<2;j++){
+           scanf("%d",&b[i][j]);
+       }
+   }
+   
+   int m1,m2,m3,m4,m5,m6,m7;
+   m1=(a[0][0]+a[0][1])*( b[0][0] + b[1][1]);
+   m2=(a[1][0]+a[1][1])*( b[0][0]);
+   m3=(a[0][0])*( b[0][1] + b[1][1]);
+   m4=(a[1][1])*(b[1][0]-b[0][0]);
+    m5=(a[0][0]+a[0][1])*(b[1][1]);
+     m6=(a[1][0]-a[0][0])*(b[0][0]+b[0][1]);
+      m7=(a[0][1]-a[1][1])*(b[1][0]+b[1][1]);
+      c[0][0]=m1+m4-m5+m7;
+      c[0][1]=m3+m5;
+      c[1][0]=m2+m4;
+      c[1][1]=m1-m2+m3+m6;
+      
+      printf("\n strasssen Mault-->");
+      for( i=0;i<2;i++){
+          printf("\n");
+          for(j=0;j<2;j++){
+              printf("%d\t",c[i][j]);
+          }
+      }
+}
+
+13)Prims
+#include <stdio.h>
+int a, b, u, v, n, i, j, ne = 1;
+int visited[10] = {
+    0},
+    min, mincost = 0, cost[10][10];
+void main()
+{
+    printf("\n Enter the number of nodes:");
+    scanf("%d", &n);
+    printf("\n Enter the adjacency matrix:\n");
+    for (i = 1; i <= n; i++)
+        for (j = 1; j <= n; j++)
+        {
+            scanf("%d", &cost[i][j]);
+            if (cost[i][j] == 0)
+                cost[i][j] = 999;
+        }
+    visited[1] = 1;
+    printf("\n");
+    while (ne < n)
+    {
+        for (i = 1, min = 999; i <= n; i++)
+            for (j = 1; j <= n; j++)
+                if (cost[i][j] < min)
+                    if (visited[i] != 0)
+                    {
+                        min = cost[i][j];
+                        a = u = i;
+                        b = v = j;
+                    }
+        if (visited[u] == 0 || visited[v] == 0)
+        {
+            printf("\n Edge %d:(%d %d) cost:%d", ne++, a, b, min);
+            mincost += min;
+            visited[b] = 1;
+        }
+        cost[a][b] = cost[b][a] = 999;
+    }
+    printf("\n Minimun cost=%d", mincost);
+}
+
+14)Kruskal
+#include <stdio.h>
+#include <stdlib.h>
+
+int i, j, k, a, b, u, v, n, ne = 1;
+int min, mincost = 0, cost[9][9], parent[9];
+
+int find(int i)
+{
+    while (parent[i])
+        i = parent[i];
+    return i;
+}
+int _union(int i, int j)
+{
+    if (i != j)
+    {
+        parent[j] = i;
+        return 1;
+    }
+    return 0;
+}
+
+void main()
+{
+    printf("\n\tImplementation of Kruskal's algorithm\n");
+    printf("\nEnter the no. of vertices:");
+    scanf("%d", &n);
+    printf("\nEnter the cost adjacency matrix:\n");
+    for (i = 1; i <= n; i++)
+    {
+        for (j = 1; j <= n; j++)
+        {
+            scanf("%d", &cost[i][j]);
+            if (cost[i][j] == 0)
+                cost[i][j] = 999;
+        }
+    }
+    printf("The edges of Minimum Cost Spanning Tree are\n");
+    while (ne < n)
+    {
+        for (i = 1, min = 999; i <= n; i++)
+        {
+            for (j = 1; j <= n; j++)
+            {
+                if (cost[i][j] < min)
+                {
+                    min = cost[i][j];
+                    a = u = i;
+                    b = v = j;
+                }
+            }
+        }
+        u = find(u);
+        v = find(v);
+        if (_union(u, v))
+        {
+            printf("%d edge (%d,%d) =%d\n", ne++, a, b, min);
+            mincost += min;
+        }
+        cost[a][b] = cost[b][a] = 999;
+    }
+    printf("\n\tMinimum cost = %d\n", mincost);
+}
